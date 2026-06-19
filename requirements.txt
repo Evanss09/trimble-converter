@@ -1,0 +1,11 @@
+# Runtime dependencies for DuctSort (the converter itself).
+openpyxl>=3.1
+reportlab>=4.0
+
+# Dashboard home screen. On Windows it uses the WebView2 runtime (built into
+# Windows 11, standard on updated Windows 10) via pythonnet. If WebView2 is
+# missing, the app falls back to the bundled Tkinter home screen automatically.
+pywebview>=5.0
+
+# Build-only dependency (creating the standalone .exe). Not needed to run from source.
+# pyinstaller>=6.0

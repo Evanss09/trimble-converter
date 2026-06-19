@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# PyInstaller build output
+build/*/
+dist/
+*.spec
+
+# Local test / scratch output
+.tmp_*
+.tmp_out/
+.tmp_out2/
+.tmp_exe_out/
+_page*.png
+_p*.png
+*.tmp_*.xlsx
+*.tmp_*.pdf
+*(locked-*).xlsx
+*(locked-*).pdf
+
+# Client data and reference material - do NOT commit (contains VR pricing)
+McMichael Art Gallery Raw Data.xlsx
+IMG_3759.jpeg
+*Raw Data.xlsx
+*.xlsm
+Plumbing/
+*Takeoff Summary.xlsx
+*Takeoff Summary.pdf

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trimble Converter</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="titlebar">
+    <div class="tb-left pywebview-drag-region">
+      <div class="logo">T</div>
+      <div class="tb-name">Trimble Converter</div>
+    </div>
+    <div class="dots">
+      <button id="min" class="dot dot-min" title="Minimize"></button>
+      <button id="max" class="dot dot-max" title="Maximize"></button>
+      <button id="close" class="dot dot-close" title="Close"></button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ============ IDLE ============ -->
+    <section id="idle" class="screen">
+      <div class="eyebrow"><span class="eb-dot"></span><span>Sheet Metal &amp; Plumbing Take-off</span></div>
+      <h1 class="h1">Drop raw take-offs, get the report.</h1>
+      <p class="lede">Sorts each Trimble export by floor, system, size, spec &amp; gauge — into a workbook and PDF. Drop several at once to combine.</p>
+
+      <div id="drop" class="dropzone" tabindex="0" role="button" aria-label="Choose Trimble exports">
+        <div class="dz-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1bd198" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>
+        </div>
+        <div class="dz-title">Drop the Trimble exports here</div>
+        <div class="dz-hint">accepts .xlsx and .xlsm · one or many</div>
+        <button id="choose" class="btn-ghost" type="button">Choose files</button>
+      </div>
+
+      <div id="filelist" class="filelist" hidden></div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-label">Units</div>
+          <div class="opts">
+            <label class="radio"><input type="radio" name="units" value="auto" checked /><span class="rdot"></span><span class="rtxt">Auto-detect</span></label>
+            <label class="radio"><input type="radio" name="units" value="imperial" /><span class="rdot"></span><span class="rtxt">Imperial</span></label>
+            <label class="radio"><input type="radio" name="units" value="metric" /><span class="rdot"></span><span class="rtxt">Metric</span></label>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-label">Output</div>
+          <div class="opts">
+            <label class="check"><input type="checkbox" id="opt-excel" checked /><span class="cbox"></span><span class="rtxt">Excel workbook</span></label>
+            <label class="check"><input type="checkbox" id="opt-pdf" checked /><span class="cbox"></span><span class="rtxt">PDF report</span></label>
+          </div>
+        </div>
+      </div>
+
+      <button id="generate" class="btn-primary" type="button" disabled>Generate report</button>
+    </section>
+
+    <!-- ============ PROCESSING ============ -->
+    <section id="processing" class="screen" hidden>
+      <div class="eyebrow"><span class="eb-dot pulse"></span><span>Generating</span></div>
+      <h1 class="h1">Building your report…</h1>
+      <p class="lede">Hang tight — parsing the exports and grouping every line item.</p>
+
+      <div class="filechip">
+        <div class="fc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1bd198" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        </div>
+        <div class="fc-body">
+          <div id="p-name" class="fc-name">files</div>
+          <div id="p-meta" class="fc-meta">reading…</div>
+        </div>
+        <span id="p-pct" class="fc-pct">0%</span>
+      </div>
+
+      <div class="bar"><div id="bar-fill" class="bar-fill"></div></div>
+
+      <div class="steps">
+        <div class="step" data-step="1"><span class="mark"></span><span class="step-txt">Parse exports</span></div>
+        <div class="step" data-step="2"><span class="mark"></span><span class="step-txt">Detect trade &amp; units</span></div>
+        <div class="step" data-step="3"><span class="mark"></span><span class="step-txt">Group &amp; combine</span></div>
+        <div class="step" data-step="4"><span class="mark"></span><span class="step-txt">Build Excel workbook</span></div>
+        <div class="step" data-step="5"><span class="mark"></span><span class="step-txt">Render PDF report</span></div>
+      </div>
+
+      <button id="cancel" class="btn-soft" type="button">Cancel</button>
+    </section>
+
+    <!-- ============ DONE ============ -->
+    <section id="done" class="screen" hidden>
+      <div class="done-head">
+        <div class="done-check">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1bd198" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <div class="done-title">Report ready.</div>
+          <div id="done-sub" class="done-sub">Organized and combined.</div>
+        </div>
+      </div>
+
+      <div id="segments" class="segwrap"></div>
+      <div id="files" class="files"></div>
+
+      <div class="actions">
+        <button id="open-folder" class="btn-primary grow" type="button">Open folder</button>
+        <button id="again" class="btn-soft wide" type="button">Convert another</button>
+      </div>
+    </section>
+
+    <!-- ============ ERROR ============ -->
+    <section id="error" class="screen center" hidden>
+      <div class="err-badge">!</div>
+      <div id="err-text" class="err-text">Something went wrong.</div>
+      <button id="retry" class="btn-soft" type="button">Try again</button>
+    </section>
+
+  </div>
+
+  <div class="footbar">
+    <div id="foot-status" class="foot-status">Trimble Converter</div>
+    <div id="foot-ver" class="foot-ver">v2.0.0</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
