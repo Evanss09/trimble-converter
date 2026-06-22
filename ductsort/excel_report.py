@@ -3,7 +3,7 @@
 A combined Summary sheet (per-segment KPIs + overview), then each segment's
 sheets: the drill sheet (sheet-metal size aggregation, or plumbing line-item
 detail) plus its flat breakdowns. Tabs are trade-prefixed when >1 segment.
-Excel keeps Arial and the VR red; deliverables stay VR-branded.
+Excel keeps Arial and the red accent; the report styling is self-contained.
 """
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ def _hx(c):
     return c.lstrip("#").upper()
 
 
-WHITE, RED, BLACK = _hx(brand.WHITE), _hx(brand.FLOOR_FILL), _hx(brand.VR_BLACK)
+WHITE, RED, BLACK = _hx(brand.WHITE), _hx(brand.FLOOR_FILL), _hx(brand.INK)
 SUB, ALT, LINE, MID = _hx(brand.SUBTOTAL_FILL), _hx(brand.ROW_ALT), _hx(brand.ROW_LINE), _hx(brand.MID_GRAY)
 F = brand.EXCEL_FONT
 _thin = Side(style="thin", color=LINE)
@@ -141,7 +141,7 @@ def _summary_sheet(ws, model):
         row += 1
         cards = _kpi_cards(seg)
         for i, (val, lbl) in enumerate(cards):
-            ws.cell(row=row, column=1 + i, value=val).font = Font(name=F, size=12, bold=True, color=_hx(brand.VR_RED))
+            ws.cell(row=row, column=1 + i, value=val).font = Font(name=F, size=12, bold=True, color=_hx(brand.ACCENT))
             ws.cell(row=row + 1, column=1 + i, value=lbl).font = Font(name=F, size=8, color=MID)
         srcs = [s for s in seg["sources"]]
         note = f"{seg['data']['kpis']['line_count']:,} line items"

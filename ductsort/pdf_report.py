@@ -1,9 +1,9 @@
-"""Branded VR Mechanical PDF for a ReportModel of trade segments.
+"""Branded PDF for a ReportModel of trade segments.
 
 A cover, then a condensed section per trade segment (segment band + KPI line +
-summary tables). Full line-item / size detail lives in the Excel. Reuses the
-approved VR look: black header bar with a red corner triangle, black footer bar,
-Manrope/Poppins embedded.
+summary tables). Full line-item / size detail lives in the Excel. Clean look:
+black header bar with a red corner triangle, black footer bar, Manrope/Poppins
+embedded.
 """
 from __future__ import annotations
 
@@ -54,7 +54,7 @@ def _table(heading, nodes, kind, total_totals, columns, ul, S,
         ("TOPPADDING", (0, 0), (-1, -1), 2.4), ("BOTTOMPADDING", (0, 0), (-1, -1), 2.4),
         ("LEFTPADDING", (0, 0), (-1, -1), 5), ("RIGHTPADDING", (0, 0), (-1, -1), 5),
         ("LINEBELOW", (0, 0), (-1, -2), 0.4, colors.HexColor(brand.ROW_LINE)),
-        ("LINEABOVE", (0, -1), (-1, -1), 0.8, colors.HexColor(brand.VR_BLACK)),
+        ("LINEABOVE", (0, -1), (-1, -1), 0.8, colors.HexColor(brand.INK)),
         ("BACKGROUND", (0, -1), (-1, -1), colors.HexColor(brand.ROW_ALT)),
     ]
     for ri in range(1, len(rows) - 1):
@@ -96,7 +96,7 @@ def _segment_section(seg, S):
     dims = seg["data"]["hierarchy_dims"]
 
     out.append(Paragraph(f"{_esc(seg['label'])}", S["SEG"]))
-    out.append(HRFlowable(width="100%", thickness=1.4, color=colors.HexColor(brand.VR_RED),
+    out.append(HRFlowable(width="100%", thickness=1.4, color=colors.HexColor(brand.ACCENT),
                           spaceBefore=2, spaceAfter=6))
     out.append(_kpi_line(seg, S))
     out.append(Spacer(1, 6))
@@ -140,9 +140,9 @@ def _styles(body, bold, head, head_bold, usable):
                               leading=leading or size * 1.2)
     return {
         "usable": usable,
-        "H1": sty("H1", 16, head_bold, brand.VR_BLACK),
-        "SEG": sty("SEG", 13, head_bold, brand.VR_BLACK, leading=16),
-        "H2": sty("H2", 10.5, head_bold, brand.VR_BLACK, leading=13),
+        "H1": sty("H1", 16, head_bold, brand.INK),
+        "SEG": sty("SEG", 13, head_bold, brand.INK, leading=16),
+        "H2": sty("H2", 10.5, head_bold, brand.INK, leading=13),
         "SUB": sty("SUB", 8.5, body, brand.MID_GRAY),
         "KPI": sty("KPI", 10, body, brand.DARK_GRAY, leading=15),
         "NOTE": sty("NOTE", 7.5, body, brand.MID_GRAY, leading=10),
@@ -150,8 +150,8 @@ def _styles(body, bold, head, head_bold, usable):
         "THR": sty("THR", 8, head_bold, brand.WHITE, align="right"),
         "TD": sty("TD", 8, body, brand.DARK_GRAY),
         "TDR": sty("TDR", 8, body, brand.DARK_GRAY, align="right"),
-        "TDB": sty("TDB", 8, bold, brand.VR_BLACK),
-        "TDBR": sty("TDBR", 8, bold, brand.VR_BLACK, align="right"),
+        "TDB": sty("TDB", 8, bold, brand.INK),
+        "TDBR": sty("TDBR", 8, bold, brand.INK, align="right"),
     }
 
 
@@ -171,9 +171,9 @@ def write(model: dict, out_path) -> tuple:
     def draw_page(canvas, d):
         page_count[0] = d.page
         canvas.saveState()
-        canvas.setFillColor(colors.HexColor(brand.VR_BLACK))
+        canvas.setFillColor(colors.HexColor(brand.INK))
         canvas.rect(0, PAGE_H - HDR_H, PAGE_W, HDR_H, fill=1, stroke=0)
-        canvas.setFillColor(colors.HexColor(brand.VR_RED))
+        canvas.setFillColor(colors.HexColor(brand.ACCENT))
         p = canvas.beginPath()
         p.moveTo(PAGE_W - 4.5 * cm, PAGE_H)
         p.lineTo(PAGE_W, PAGE_H)
@@ -183,7 +183,7 @@ def write(model: dict, out_path) -> tuple:
         canvas.setFillColor(colors.white)
         canvas.setFont(head_bold, 9)
         canvas.drawString(LR, PAGE_H - HDR_H + 0.5 * cm, doc_title)
-        canvas.setFillColor(colors.HexColor(brand.VR_BLACK))
+        canvas.setFillColor(colors.HexColor(brand.INK))
         canvas.rect(0, 0, PAGE_W, FTR_H, fill=1, stroke=0)
         mid = FTR_H / 2 - 0.12 * cm
         canvas.setFillColor(colors.white)
@@ -193,7 +193,7 @@ def write(model: dict, out_path) -> tuple:
         canvas.restoreState()
 
     story = [Paragraph(_esc(doc_title), S["H1"]),
-             HRFlowable(width="100%", thickness=1.5, color=colors.HexColor(brand.VR_RED),
+             HRFlowable(width="100%", thickness=1.5, color=colors.HexColor(brand.ACCENT),
                         spaceBefore=2, spaceAfter=6)]
     sub = "   |   ".join(x for x in [title, f"Generated {generated}", brand.COMPANY_NAME] if x)
     story.append(Paragraph(_esc(sub), S["SUB"]))

@@ -9,8 +9,8 @@ to put plumbing and sheet metal into one report as separate sections.
 Runs entirely offline. No internet, no Python, no AI connection required.
 
 The desktop app uses a dark "mint" dashboard (Space Grotesk + IBM Plex Mono,
-fonts bundled). The generated **reports keep the VR brand** (red, Manrope +
-Poppins) — the app skin and the deliverables are intentionally separate.
+fonts bundled). The generated **reports use a clean branded style** (red accent,
+Manrope + Poppins). The app skin and the reports are intentionally separate.
 
 ## Use it (no install)
 
@@ -102,7 +102,7 @@ ductsort/        the converter package
   aggregate.py     one rollup engine used by every view
   views.py         builds all breakdowns once, from one grand total
   excel_report.py  branded workbook (collapsible groups, subtotals)
-  pdf_report.py    branded PDF (VR header bar + red triangle, embedded fonts)
+  pdf_report.py    branded PDF (black header bar + red triangle, embedded fonts)
   gui.py           pywebview dashboard host (Api exposed to the web UI)
   gui_tk.py        Tkinter fallback home screen (no WebView2 needed)
   cli.py / __main__.py            command line and double-click dispatch
@@ -111,5 +111,3 @@ ductsort/        the converter package
 build/build_exe.ps1   PyInstaller build script
 run.py                .exe entry point
 ```
-
-

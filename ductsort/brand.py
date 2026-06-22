@@ -1,9 +1,9 @@
-"""VR Mechanical brand kit, baked in so the shipped tool has no external deps.
+"""Built-in report style kit, baked in so the shipped tool has no external deps.
 
-Palette and type mirror the approved VR look (vrmechanical.ca audit 2026-06-18):
-black header bars, the logo red, Manrope headings + Poppins body for the PDF,
-Arial for Excel (xlsx cannot embed fonts). Values are copied from the shared
-`vr_brand.py` rather than imported so the standalone .exe carries everything.
+A clean, self-contained look: black header bars, a red accent, Manrope headings
++ Poppins body for the PDF, Arial for Excel (xlsx cannot embed fonts). Everything
+is defined here so the standalone .exe carries its own styling with no external
+files or imports.
 """
 from __future__ import annotations
 
@@ -11,24 +11,23 @@ import sys
 from pathlib import Path
 
 # ----------------------------------------------------------------- palette
-VR_BLACK = "#0d0d0d"
-VR_RED = "#d41d11"        # logo / registered-mark red
+INK = "#0d0d0d"
+ACCENT = "#d41d11"        # red accent
 DARK_GRAY = "#1a1a1a"
 MID_GRAY = "#555555"
 TABLE_HDR = "#111111"     # near-black PDF table header
 ROW_ALT = "#f5f5f5"       # alternating row tint
 ROW_LINE = "#d8d8d8"      # row separator
 SUBTOTAL_FILL = "#e9e9e9"  # grey subtotal band (Excel)
-FLOOR_FILL = "#d41d11"    # floor band uses the brand red (Excel)
+FLOOR_FILL = "#d41d11"    # floor band uses the red accent (Excel)
 WHITE = "#ffffff"
 
-EXCEL_FONT = "Arial"      # Excel stays Arial (cannot embed brand fonts)
+EXCEL_FONT = "Arial"      # Excel stays Arial (cannot embed fonts)
 
-COMPANY_NAME = "VR Mechanical Solutions Inc."
-COMPANY_FOOTER = (
-    "VR Mechanical Solutions Inc.  •  283 Station Street  "
-    "•  Ajax ON  •  L1S 1S3  •  905-426-7551"
-)
+# Optional footer / subtitle text on the PDF. Empty by default so the tool is
+# standalone; set these if you want your own name on the generated reports.
+COMPANY_NAME = ""
+COMPANY_FOOTER = ""
 
 
 # --------------------------------------------------------------- font paths
@@ -42,12 +41,12 @@ def _fonts_dir() -> Path:
 FONTS_DIR = _fonts_dir()
 
 # ReportLab registered font names used by the PDF renderer.
-RL_BODY = "VR-Regular"
-RL_BODY_BOLD = "VR-Bold"
-RL_BODY_ITALIC = "VR-Italic"
-RL_BODY_BOLDITALIC = "VR-BoldItalic"
-RL_HEAD = "VR-Heading"
-RL_HEAD_BOLD = "VR-Heading-Bold"
+RL_BODY = "Report-Regular"
+RL_BODY_BOLD = "Report-Bold"
+RL_BODY_ITALIC = "Report-Italic"
+RL_BODY_BOLDITALIC = "Report-BoldItalic"
+RL_HEAD = "Report-Heading"
+RL_HEAD_BOLD = "Report-Heading-Bold"
 
 
 def register_reportlab_fonts() -> tuple[str, str, str, str]:
@@ -72,7 +71,7 @@ def register_reportlab_fonts() -> tuple[str, str, str, str]:
             if name not in registered:
                 pdfmetrics.registerFont(TTFont(name, str(FONTS_DIR / fname)))
         pdfmetrics.registerFontFamily(
-            "VR", normal=RL_BODY, bold=RL_BODY_BOLD,
+            "Report", normal=RL_BODY, bold=RL_BODY_BOLD,
             italic=RL_BODY_ITALIC, boldItalic=RL_BODY_BOLDITALIC,
         )
         return RL_BODY, RL_BODY_BOLD, RL_HEAD, RL_HEAD_BOLD

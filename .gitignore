@@ -22,7 +22,7 @@ _p*.png
 *(locked-*).xlsx
 *(locked-*).pdf
 
-# Client data and reference material - do NOT commit (contains VR pricing)
+# Client data and reference material - do NOT commit (contains client pricing)
 McMichael Art Gallery Raw Data.xlsx
 IMG_3759.jpeg
 *Raw Data.xlsx

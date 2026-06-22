@@ -16,7 +16,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(
         prog="trimble-converter",
         description="Convert Trimble AutoBid raw exports (sheet metal or plumbing) "
-                    "into VR-branded Excel + PDF take-off summaries.")
+                    "into branded Excel + PDF take-off summaries.")
     p.add_argument("inputs", nargs="+", help="raw export .xlsx/.xlsm file(s)")
     p.add_argument("-o", "--out-dir", default=None,
                    help="Output folder (default: alongside the first input)")
