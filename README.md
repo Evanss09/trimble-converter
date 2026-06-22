@@ -112,5 +112,4 @@ build/build_exe.ps1   PyInstaller build script
 run.py                .exe entry point
 ```
 
-Brand: VR red `#d41d11`, black header/footer bars, Manrope + Poppins in the PDF
-(embedded, so recipients need nothing installed), Arial in Excel.
+
