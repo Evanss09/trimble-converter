@@ -57,8 +57,10 @@ PL_DETAIL_COLUMNS = [
 def _derive_sheet_metal(rec: dict) -> None:
     rec["material_cost"] = (num(rec.get("fab_cost")) + num(rec.get("purchase_cost"))
                             + num(rec.get("quote_cost")))
-    rec["labour_hrs"] = (num(rec.get("shop_hrs")) + num(rec.get("field_hrs"))
-                         + num(rec.get("shop_hand_hrs")) + num(rec.get("field_hand_hrs")))
+    # Field/install hours only. Shop (fabrication) hours are excluded: VR does
+    # not make the material, and some exports carry shop hours while others do
+    # not, so they must never count toward reported labour.
+    rec["labour_hrs"] = num(rec.get("field_hrs")) + num(rec.get("field_hand_hrs"))
     rec["labour_cost"] = 0.0
     for k in ("qty", "length", "weight", "area"):
         rec[k] = num(rec.get(k))

@@ -45,8 +45,8 @@ this only fixes the labels. Override with the Units selector or `--units`.
 
 **Sheet metal:** Summary (KPIs incl. $/ft²), Floor → System → Size (collapsible,
 subtotals), By Spec/Gauge, By Size, By Drawing.
-Material $ = Fab + Purchase + Quote; Labour Hrs = Adjusted Shop + Field + hand
-hours.
+Material $ = Fab + Purchase + Quote; Labour Hrs = Adjusted Field + Field hand
+hours (shop/fabrication hours are excluded; VR installs, it does not fabricate).
 
 **Plumbing:** Summary (KPIs incl. $/hr), an overview by System (Material $,
 Mat %, Labour Hrs, Lab %) that drills into per-system **line-item detail**
